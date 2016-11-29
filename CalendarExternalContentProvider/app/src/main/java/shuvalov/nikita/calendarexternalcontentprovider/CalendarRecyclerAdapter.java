@@ -1,6 +1,7 @@
 package shuvalov.nikita.calendarexternalcontentprovider;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -18,17 +19,24 @@ public class CalendarRecyclerAdapter extends RecyclerView.Adapter<CalendarItemHo
 
     @Override
     public CalendarItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_form,null);
+        return new CalendarItemHolder(view);
     }
 
     @Override
     public void onBindViewHolder(CalendarItemHolder holder, int position) {
+        holder.bindData(mEvents.get(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mEvents.size();
+    }
+
+    public void updateList(ArrayList<Event> events){
+        mEvents = events;
+        notifyDataSetChanged();
     }
 }
 class CalendarItemHolder extends RecyclerView.ViewHolder{
@@ -38,5 +46,9 @@ class CalendarItemHolder extends RecyclerView.ViewHolder{
         super(itemView);
         mDate = (TextView)itemView.findViewById(R.id.date);
         mDay = (TextView)itemView.findViewById(R.id.day_name);
+    }
+    public void bindData(Event event){
+        mDate.setText(event.getDate());
+        mDay.setText(event.getName());
     }
 }
